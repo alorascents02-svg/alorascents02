@@ -11,6 +11,8 @@ import { Footer } from './components/Footer';
 
 // Pages
 import { HomePage } from './pages/HomePage';
+import { FragrancePage } from './pages/FragrancePage';
+import { DiscoverPage } from './pages/DiscoverPage';
 import { ShopPage } from './pages/ShopPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { FindYourScentPage } from './pages/FindYourScentPage';
@@ -34,6 +36,7 @@ import { TermsPage } from './pages/TermsPage';
 import { DeliveryPage } from './pages/DeliveryPage';
 import { ReturnsPage } from './pages/ReturnsPage';
 import { AdminPage } from './pages/AdminPage';
+import { AiScentAssistantModal } from './components/AiScentAssistantModal';
 
 // Scroll to top on navigation helper
 const ScrollToTop: React.FC = () => {
@@ -56,6 +59,8 @@ export default function App() {
           <main className="flex-1">
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/fragrance" element={<FragrancePage />} />
+              <Route path="/discover" element={<DiscoverPage />} />
               <Route path="/shop" element={<ShopPage />} />
               <Route path="/shop/:slug" element={<ProductDetailPage />} />
               <Route path="/find-your-scent" element={<FindYourScentPage />} />
@@ -82,6 +87,7 @@ export default function App() {
             </Routes>
           </main>
           <Footer />
+          <AiScentAssistantModal />
         </div>
       </BrowserRouter>
     </AppProvider>

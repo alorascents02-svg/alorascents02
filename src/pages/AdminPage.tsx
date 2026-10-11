@@ -99,6 +99,7 @@ export const AdminPage: React.FC = () => {
     price3ml: number;
     price5ml: number;
     price10ml: number;
+    price15ml: number;
   }>({
     name: '',
     brand: 'Alora Fragrance House',
@@ -124,6 +125,7 @@ export const AdminPage: React.FC = () => {
     price3ml: 35,
     price5ml: 55,
     price10ml: 95,
+    price15ml: 140,
   });
 
   const [successNotice, setSuccessNotice] = useState('');
@@ -177,6 +179,7 @@ export const AdminPage: React.FC = () => {
     const opt3 = p.decantOptions?.find((d) => d.size.includes('3ml'))?.price || Math.round(p.price * 0.1) || 35;
     const opt5 = p.decantOptions?.find((d) => d.size.includes('5ml'))?.price || Math.round(p.price * 0.16) || 55;
     const opt10 = p.decantOptions?.find((d) => d.size.includes('10ml'))?.price || Math.round(p.price * 0.28) || 95;
+    const opt15 = p.decantOptions?.find((d) => d.size.includes('15ml'))?.price || Math.round(p.price * 0.42) || 140;
 
     setProductFormState({
       name: p.name,
@@ -203,6 +206,7 @@ export const AdminPage: React.FC = () => {
       price3ml: opt3,
       price5ml: opt5,
       price10ml: opt10,
+      price15ml: opt15,
     });
   };
 
@@ -235,6 +239,7 @@ export const AdminPage: React.FC = () => {
       price3ml: 35,
       price5ml: 55,
       price10ml: 95,
+      price15ml: 140,
     });
   };
 
@@ -253,9 +258,9 @@ export const AdminPage: React.FC = () => {
 
     const generatedDecantOptions = productFormState.decantAvailable
       ? [
-          { size: '3ml Sample Decant', price: Number(productFormState.price3ml) || 35 },
           { size: '5ml Travel Decant', price: Number(productFormState.price5ml) || 55 },
           { size: '10ml Deluxe Decant', price: Number(productFormState.price10ml) || 95 },
+          { size: '15ml Pocket Flacon', price: Number(productFormState.price15ml) || 140 },
           { size: `Full Bottle (${productFormState.size || '100ml'})`, price: Number(productFormState.price) },
         ]
       : undefined;
@@ -1271,6 +1276,15 @@ export const AdminPage: React.FC = () => {
                             type="number"
                             value={productFormState.price10ml}
                             onChange={(e) => setProductFormState({ ...productFormState, price10ml: Number(e.target.value) })}
+                            className="w-full p-2 bg-white border border-[#211D24]/20 font-mono text-xs"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="font-semibold block text-[11px]">15ml Pocket Flacon (GH₵)</label>
+                          <input
+                            type="number"
+                            value={productFormState.price15ml}
+                            onChange={(e) => setProductFormState({ ...productFormState, price15ml: Number(e.target.value) })}
                             className="w-full p-2 bg-white border border-[#211D24]/20 font-mono text-xs"
                           />
                         </div>

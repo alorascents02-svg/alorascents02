@@ -1,22 +1,23 @@
 import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search, SlidersHorizontal, RotateCcw, ShieldCheck, AlertCircle, Sparkles, Droplets } from 'lucide-react';
+import { Search, SlidersHorizontal, RotateCcw, ShieldCheck, Sparkles, Droplets, Check, Copy } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { ProductCard } from '../components/ProductCard';
-import { ScentFamily, ProductType } from '../types';
+import { ScentFamily } from '../types';
 
 export const ShopPage: React.FC = () => {
-  const { publishedProducts, featureFlags } = useApp();
+  const { publishedProducts, featureFlags, appliedPromoCode, applyPromoCode } = useApp();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const familyParam = searchParams.get('family');
-  const typeParam = searchParams.get('type') || 'all';
+  const typeParam = searchParams.get('type') || searchParams.get('format') || 'all';
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFamily, setSelectedFamily] = useState<string>(familyParam || 'all');
   const [selectedFormat, setSelectedFormat] = useState<string>(typeParam);
   const [maxPrice, setMaxPrice] = useState<number>(500);
   const [sortBy, setSortBy] = useState<'featured' | 'price_asc' | 'price_desc' | 'name'>('featured');
+  const [copiedCode, setCopiedCode] = useState(false);
 
   const families: ScentFamily[] = [
     'Warm Woody',
@@ -28,12 +29,21 @@ export const ShopPage: React.FC = () => {
 
   const formatTabs = [
     { id: 'all', label: 'All Items' },
-    { id: 'decants', label: 'Perfume Decants (3ml · 5ml · 10ml)', badge: 'Most Popular' },
-    { id: 'full_bottles', label: 'Full Bottles' },
+    { id: 'decants', label: 'Perfume Decants (5ml · 10ml · 15ml)', badge: 'Most Popular' },
+    { id: '5ml', label: '5ml Travel Decants' },
+    { id: '10ml', label: '10ml Deluxe Atomizers' },
+    { id: '15ml', label: '15ml Pocket Flacons' },
     { id: 'perfume_oil', label: 'Concentrated Perfume Oils' },
     { id: 'body_splash', label: 'Body Splashes' },
-    { id: 'gift_bundle', label: 'Discovery & Gift Sets' },
+    { id: 'full_bottles', label: 'Full Bottles (100ml)' },
   ];
+
+  const handleCopyWelcome10 = () => {
+    navigator.clipboard?.writeText('WELCOME10');
+    applyPromoCode('WELCOME10');
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 2500);
+  };
 
   const filteredProducts = useMemo(() => {
     return publishedProducts.filter((product) => {
@@ -61,17 +71,23 @@ export const ShopPage: React.FC = () => {
 
       // Format Tab Filtering
       if (selectedFormat === 'decants') {
-        // Show any product with decants enabled or productType 'decant'
         const hasDecants = product.decantAvailable || (product.decantOptions && product.decantOptions.length > 0) || product.productType === 'decant';
         if (!hasDecants) return false;
+      } else if (selectedFormat === '5ml') {
+        const has5ml = product.decantOptions?.some(d => d.size.includes('5ml'));
+        if (!has5ml) return false;
+      } else if (selectedFormat === '10ml') {
+        const has10ml = product.decantOptions?.some(d => d.size.includes('10ml'));
+        if (!has10ml) return false;
+      } else if (selectedFormat === '15ml') {
+        const has15ml = product.decantOptions?.some(d => d.size.includes('15ml'));
+        if (!has15ml) return false;
       } else if (selectedFormat === 'full_bottles') {
         if (product.productType !== 'eau_de_parfum') return false;
       } else if (selectedFormat === 'perfume_oil') {
         if (product.productType !== 'perfume_oil') return false;
       } else if (selectedFormat === 'body_splash') {
         if (product.productType !== 'body_splash') return false;
-      } else if (selectedFormat === 'gift_bundle') {
-        if (product.productType !== 'gift_bundle') return false;
       }
 
       // Price ceiling
@@ -100,11 +116,11 @@ export const ShopPage: React.FC = () => {
   if (!featureFlags.cataloguePublication || publishedProducts.length === 0) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-24 text-center space-y-6">
-        <div className="w-16 h-16 mx-auto bg-[#241C2B]/5 flex items-center justify-center text-[#241C2B]">
-          <ShieldCheck className="w-8 h-8 text-[#D68C7C]" />
+        <div className="w-16 h-16 mx-auto bg-[#171512]/5 flex items-center justify-center text-[#171512]">
+          <ShieldCheck className="w-8 h-8 text-[#C59B3F]" />
         </div>
-        <h1 className="font-serif text-4xl text-[#241C2B]">Catalogue Preparing for Relaunch</h1>
-        <p className="text-base text-[#211D24]/70 max-w-lg mx-auto leading-relaxed">
+        <h1 className="font-serif text-4xl text-[#171512]">Catalogue Preparing for Relaunch</h1>
+        <p className="text-base text-[#171512]/70 max-w-lg mx-auto leading-relaxed">
           Alora Fragrance House is currently updating our verified fragrance catalogue in Ghana. Check back shortly or connect with our concierge on WhatsApp.
         </p>
       </div>
@@ -114,32 +130,39 @@ export const ShopPage: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       {/* Editorial Header with Decant Mission */}
-      <div className="space-y-4 border-b border-[#211D24]/10 pb-8">
-        <div className="text-xs uppercase tracking-[0.2em] font-semibold text-[#D68C7C]">
-          The Alora Catalogue
+      <div className="space-y-4 border-b border-[#171512]/10 pb-8">
+        <div className="text-xs uppercase tracking-[0.25em] font-semibold text-[#C59B3F]">
+          The Alora Catalogue · Accra
         </div>
-        <h1 className="font-serif text-4xl sm:text-5xl text-[#241C2B] tracking-tight">
+        <h1 className="font-serif text-4xl sm:text-5xl text-[#171512] tracking-tight">
           Curated Fragrances, Decants & Oils
         </h1>
-        <p className="text-sm sm:text-base text-[#211D24]/75 max-w-3xl leading-relaxed">
-          Don’t risk an expensive blind buy on an online review. We hand-decant 100% genuine luxury perfumes into sterile 3ml, 5ml, and 10ml travel atomizers, and offer pure perfume oils, fine body splashes, and sealed full bottles. All priced transparently in Ghanaian Cedis.
+        <p className="text-sm sm:text-base text-[#171512]/75 max-w-3xl leading-relaxed font-light">
+          Don’t risk an expensive blind buy on an online review. We hand-decant 100% genuine luxury perfumes into sterile <strong>5ml, 10ml, and 15ml</strong> travel atomizers, and offer pure concentrated perfume oils, fine body splashes, and sealed full bottles. All priced transparently in Ghanaian Cedis.
         </p>
 
-        {/* Highlight Banner */}
+        {/* Promo Code & Highlights Ribbon */}
         <div className="pt-2 flex flex-wrap items-center gap-3">
-          <div className="inline-flex items-center gap-2 bg-[#FAF8F5] border border-[#211D24]/10 px-3.5 py-1.5 text-xs text-[#241C2B]">
-            <Droplets className="w-4 h-4 text-[#D68C7C]" />
-            <span className="font-medium">3ml, 5ml & 10ml Decants available on all perfumes</span>
+          <div className="inline-flex items-center gap-2 bg-[#171512] text-[#FAF9F5] px-4 py-2 text-xs border border-[#C59B3F]/40 shadow-sm">
+            <span className="font-mono text-[#C59B3F] font-bold">WELCOME10</span>
+            <span className="text-[#FAF9F5]/80">· 10% Off First Order</span>
+            <button
+              type="button"
+              onClick={handleCopyWelcome10}
+              className="ml-2 underline text-[#C59B3F] hover:text-white"
+            >
+              {copiedCode || appliedPromoCode === 'WELCOME10' ? 'Applied!' : 'Copy Code'}
+            </button>
           </div>
-          <div className="inline-flex items-center gap-2 bg-[#FAF8F5] border border-[#211D24]/10 px-3.5 py-1.5 text-xs text-[#241C2B]">
-            <Sparkles className="w-4 h-4 text-[#D68C7C]" />
-            <span className="font-medium">Concentrated Alcohol-Free Perfume Oils</span>
+          <div className="inline-flex items-center gap-2 bg-[#FAF9F5] border border-[#171512]/10 px-3.5 py-1.5 text-xs text-[#171512]">
+            <Droplets className="w-4 h-4 text-[#C59B3F]" />
+            <span className="font-medium">5ml, 10ml & 15ml Decants available on all perfumes</span>
           </div>
         </div>
       </div>
 
       {/* Format Category Filter Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[#211D24]/10 scrollbar-none">
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[#171512]/10 scrollbar-none">
         {formatTabs.map((tab) => {
           const isSelected = selectedFormat === tab.id;
           return (
@@ -149,13 +172,13 @@ export const ShopPage: React.FC = () => {
               onClick={() => setSelectedFormat(tab.id)}
               className={`px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all border ${
                 isSelected
-                  ? 'bg-[#241C2B] text-white border-[#241C2B] shadow-sm'
-                  : 'bg-white text-[#211D24]/80 border-[#211D24]/15 hover:border-[#241C2B]/50 hover:bg-[#FAF8F5]'
+                  ? 'bg-[#171512] text-[#FAF9F5] border-[#171512] shadow-sm'
+                  : 'bg-white text-[#171512]/80 border-[#171512]/15 hover:border-[#C59B3F] hover:bg-[#FAF9F5]'
               }`}
             >
               <span>{tab.label}</span>
               {tab.badge && !isSelected && (
-                <span className="ml-2 text-[10px] font-normal text-[#D68C7C] bg-[#D68C7C]/10 px-1.5 py-0.5">
+                <span className="ml-2 text-[10px] font-normal text-[#C59B3F] bg-[#C59B3F]/15 px-1.5 py-0.5">
                   {tab.badge}
                 </span>
               )}
@@ -165,17 +188,17 @@ export const ShopPage: React.FC = () => {
       </div>
 
       {/* Search and Secondary Filter Bar */}
-      <div className="bg-[#FAF8F5] border border-[#211D24]/10 p-5 space-y-5">
+      <div className="bg-[#FAF9F5] border border-[#171512]/10 p-5 space-y-5">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
           {/* Search Input */}
           <div className="md:col-span-6 relative">
-            <Search className="w-4 h-4 text-[#211D24]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-[#171512]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search by fragrance name, note (e.g. Cedar, Fig, Vanilla, Oud)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 text-xs bg-white border border-[#211D24]/15 focus:outline-none focus:border-[#241C2B] text-[#211D24]"
+              className="w-full pl-10 pr-4 py-2.5 text-xs bg-white border border-[#171512]/15 focus:outline-none focus:border-[#C59B3F] text-[#171512]"
             />
           </div>
 
@@ -192,7 +215,7 @@ export const ShopPage: React.FC = () => {
                 }
                 setSearchParams(searchParams);
               }}
-              className="w-full px-3 py-2.5 text-xs bg-white border border-[#211D24]/15 focus:outline-none focus:border-[#241C2B] text-[#211D24]"
+              className="w-full px-3 py-2.5 text-xs bg-white border border-[#171512]/15 focus:outline-none focus:border-[#C59B3F] text-[#171512]"
             >
               <option value="all">All Scent Families</option>
               {families.map((fam) => (
@@ -208,7 +231,7 @@ export const ShopPage: React.FC = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="w-full px-3 py-2.5 text-xs bg-white border border-[#211D24]/15 focus:outline-none focus:border-[#241C2B] text-[#211D24]"
+              className="w-full px-3 py-2.5 text-xs bg-white border border-[#171512]/15 focus:outline-none focus:border-[#C59B3F] text-[#171512]"
             >
               <option value="featured">Featured Order</option>
               <option value="price_asc">Price: Low to High</option>
@@ -218,39 +241,21 @@ export const ShopPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Secondary Filter Line */}
-        <div className="pt-3 border-t border-[#211D24]/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-[#211D24]/70">
-          <div className="flex items-center gap-4">
-            <span>Price ceiling:</span>
-            <input
-              type="range"
-              min="100"
-              max="500"
-              step="20"
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="accent-[#241C2B] cursor-pointer"
-            />
-            <span className="font-mono font-semibold text-[#241C2B] tabular-nums">
-              Up to GH₵ {maxPrice}
-            </span>
+        {/* Active Filters / Reset */}
+        <div className="flex items-center justify-between text-xs text-[#171512]/60 pt-2 border-t border-[#171512]/10">
+          <div>
+            Showing <span className="font-semibold text-[#171512]">{filteredProducts.length}</span> of {publishedProducts.length} products
           </div>
-
-          <div className="flex items-center gap-4">
-            <span className="text-[#211D24]/60 font-mono tabular-nums">
-              Showing {filteredProducts.length} verified {filteredProducts.length === 1 ? 'creation' : 'creations'}
-            </span>
-            {(selectedFamily !== 'all' || selectedFormat !== 'all' || searchQuery || maxPrice < 500) && (
-              <button
-                type="button"
-                onClick={handleResetFilters}
-                className="inline-flex items-center gap-1 text-[#241C2B] hover:text-[#D68C7C] font-semibold"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>Reset Filters</span>
-              </button>
-            )}
-          </div>
+          {(selectedFamily !== 'all' || selectedFormat !== 'all' || searchQuery.trim()) && (
+            <button
+              type="button"
+              onClick={handleResetFilters}
+              className="flex items-center gap-1 text-[#C59B3F] hover:underline font-semibold"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Reset All Filters</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -262,18 +267,17 @@ export const ShopPage: React.FC = () => {
           ))}
         </div>
       ) : (
-        <div className="py-20 text-center space-y-4 bg-white border border-[#211D24]/10 p-8">
-          <AlertCircle className="w-8 h-8 text-[#D68C7C] mx-auto" />
-          <h3 className="font-serif text-2xl text-[#241C2B]">No Matching Fragrances Found</h3>
-          <p className="text-xs text-[#211D24]/70 max-w-md mx-auto">
-            Try adjusting your search criteria, raising the price ceiling, or clearing active filters to view available inventory.
+        <div className="py-20 text-center space-y-4 bg-white border border-[#171512]/10 p-8">
+          <p className="font-serif text-2xl text-[#171512]">No Fragrances Found</p>
+          <p className="text-xs text-[#171512]/70 max-w-md mx-auto font-light">
+            No products match your current search and format filters. Try resetting your search or choosing a different format tab.
           </p>
           <button
             type="button"
             onClick={handleResetFilters}
-            className="px-6 py-2.5 text-xs uppercase tracking-wider font-semibold text-[#F5F2EE] bg-[#241C2B]"
+            className="mt-2 px-6 py-2.5 text-xs uppercase tracking-wider font-semibold text-[#FAF9F5] bg-[#171512]"
           >
-            Clear All Filters
+            Clear Filters
           </button>
         </div>
       )}

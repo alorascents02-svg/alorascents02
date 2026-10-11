@@ -13,7 +13,7 @@ export const INITIAL_PRODUCTS: Product[] = [
       heart: ['Dark Plum', 'Smoked Cedarwood', 'Orris Butter'],
       base: ['Bourbon Vanilla', 'Rich Amber', 'Indonesian Patchouli']
     },
-    description: 'An intoxicating evening composition celebrating deep nocturnal warmth. Velours Nocturne opens with ripe black fig and sparkling pink peppercorn before giving way to smoked cedarwood and sumptuous dark plum. Authentic luxury decants let you test wear this rich fragrance on your skin in Accra’s tropical climate before committing to a full bottle.',
+    description: 'An intoxicating evening composition celebrating deep nocturnal warmth. Velours Nocturne opens with ripe black fig and sparkling pink peppercorn before giving way to smoked cedarwood and sumptuous dark plum. Authentic bespoke decants (5ml, 10ml, 15ml) let you test wear this rich formulation in Ghana’s tropical climate before committing to a full 100ml flacon.',
     shortDescription: 'Deep smoked cedarwood, velvety black fig, and warm bourbon amber.',
     size: '100ml / 3.4 fl. oz.',
     price: 360,
@@ -27,16 +27,16 @@ export const INITIAL_PRODUCTS: Product[] = [
     publicationStatus: 'published',
     verified: true,
     intensity: 'strong',
-    longevity: '8–10 hours',
+    longevity: '8–12 hours',
     sillage: 'Generous aura',
-    bestOccasions: ['Evening & Date Night', 'Special Celebration', 'Night Out'],
+    bestOccasions: ['Evening & Date Night', 'Special Celebration', 'Executive Boardroom'],
     seasonality: ['Harmattan', 'All Seasons Evening'],
     inspiredByOrCharacter: 'Signature Niche Woody Amber',
     decantAvailable: true,
     decantOptions: [
-      { size: '3ml Sample Decant', price: 35 },
-      { size: '5ml Travel Decant', price: 55 },
-      { size: '10ml Deluxe Decant', price: 95 },
+      { size: '5ml Travel Decant', price: 65 },
+      { size: '10ml Deluxe Decant', price: 115 },
+      { size: '15ml Pocket Flacon', price: 160 },
       { size: 'Full Bottle (100ml)', price: 360 }
     ]
   },
@@ -52,7 +52,7 @@ export const INITIAL_PRODUCTS: Product[] = [
       heart: ['Rose Absolute', 'Warm Amber', 'Cashmere Wood'],
       base: ['White Musk', 'Madagascar Vanilla', 'Atlas Cedar']
     },
-    description: 'A contemporary reimagining of classic damascena rose. Instead of powdery sweetness, Rose & Amber Wood infuses crimson rose petals with glowing golden amber and spicy saffron. Elegant, magnetic, and completely non-cloying even on sun-drenched afternoons in Accra.',
+    description: 'A contemporary reimagining of classic damascena rose. Instead of powdery sweetness, Rose & Amber Wood infuses crimson rose petals with glowing golden amber and spicy saffron. Magnetic and non-cloying, even on sun-drenched afternoons in Accra.',
     shortDescription: 'Luminous damask rose bathed in warm amber and radiant saffron.',
     size: '100ml / 3.4 fl. oz.',
     price: 340,
@@ -66,16 +66,16 @@ export const INITIAL_PRODUCTS: Product[] = [
     publicationStatus: 'published',
     verified: true,
     intensity: 'moderate',
-    longevity: '7–9 hours',
+    longevity: '7–10 hours',
     sillage: 'Refined moderate',
     bestOccasions: ['Daily Signature', 'Special Celebration', 'Office & Business'],
     seasonality: ['Year Round'],
     inspiredByOrCharacter: 'Contemporary Floriental',
     decantAvailable: true,
     decantOptions: [
-      { size: '3ml Sample Decant', price: 35 },
-      { size: '5ml Travel Decant', price: 50 },
-      { size: '10ml Deluxe Decant', price: 90 },
+      { size: '5ml Travel Decant', price: 60 },
+      { size: '10ml Deluxe Decant', price: 105 },
+      { size: '15ml Pocket Flacon', price: 150 },
       { size: 'Full Bottle (100ml)', price: 340 }
     ]
   },
@@ -91,7 +91,7 @@ export const INITIAL_PRODUCTS: Product[] = [
       heart: ['Neroli', 'Marine Sea Salt', 'White Ginger'],
       base: ['Virginia Cedarwood', 'Clean Vetiver', 'Solar Musk']
     },
-    description: 'Built specifically for brisk daytime elegance. Crisp citrus notes are anchored by bleached cedarwood and mineral sea salt, preventing the early evaporation common with light citrus perfumes in high humidity. Clean, invigorating, and impeccably polished.',
+    description: 'Built specifically for brisk daytime elegance. Crisp citrus notes are anchored by bleached cedarwood and mineral sea salt, preventing early evaporation common in high coastal humidity. Clean, invigorating, and impeccably polished.',
     shortDescription: 'Bracing bergamot, sea salt spray, and crisp Virginia cedar.',
     size: '100ml / 3.4 fl. oz.',
     price: 310,
@@ -105,16 +105,16 @@ export const INITIAL_PRODUCTS: Product[] = [
     publicationStatus: 'published',
     verified: true,
     intensity: 'moderate',
-    longevity: '6–8 hours',
+    longevity: '7–9 hours',
     sillage: 'Fresh intimate-to-moderate',
     bestOccasions: ['Daily Signature', 'Office & Business', 'Tropical Heat & Day Out'],
     seasonality: ['Sunny Warmth', 'Daily Wear'],
     inspiredByOrCharacter: 'Citrus Aromatic Refinement',
     decantAvailable: true,
     decantOptions: [
-      { size: '3ml Sample Decant', price: 30 },
-      { size: '5ml Travel Decant', price: 48 },
-      { size: '10ml Deluxe Decant', price: 85 },
+      { size: '5ml Travel Decant', price: 55 },
+      { size: '10ml Deluxe Decant', price: 95 },
+      { size: '15ml Pocket Flacon', price: 135 },
       { size: 'Full Bottle (100ml)', price: 310 }
     ]
   },
@@ -130,7 +130,7 @@ export const INITIAL_PRODUCTS: Product[] = [
       heart: ['Smoked Sandalwood', 'Papyrus', 'Leather Accord'],
       base: ['Cedarwood', 'Dark Amber', 'Haitian Vetiver']
     },
-    description: 'A masterclass in textural woody elegance. Dry Australian sandalwood is infused with gently smoked spices and aged papyrus, evoking private libraries and calm courtyard evenings. Available in pocket travel decants and full flacons.',
+    description: 'A masterclass in textural woody elegance. Dry Australian sandalwood is infused with gently smoked spices and aged papyrus, evoking private libraries and calm courtyard evenings. Available in pocket travel decants (5ml, 10ml, 15ml) and full flacons.',
     shortDescription: 'Creamy smoked sandalwood, green cardamom, and rich papyrus.',
     size: '100ml / 3.4 fl. oz.',
     price: 380,
@@ -144,16 +144,16 @@ export const INITIAL_PRODUCTS: Product[] = [
     publicationStatus: 'published',
     verified: true,
     intensity: 'bold',
-    longevity: '9–12 hours',
+    longevity: '10–14 hours',
     sillage: 'Commanding presence',
-    bestOccasions: ['Evening & Date Night', 'Special Celebration', 'Office & Business'],
+    bestOccasions: ['Evening & Date Night', 'Special Celebration', 'Executive Boardroom'],
     seasonality: ['Harmattan', 'All Evening'],
     inspiredByOrCharacter: 'Artisanal Niche Woody',
     decantAvailable: true,
     decantOptions: [
-      { size: '3ml Sample Decant', price: 38 },
-      { size: '5ml Travel Decant', price: 60 },
-      { size: '10ml Deluxe Decant', price: 105 },
+      { size: '5ml Travel Decant', price: 70 },
+      { size: '10ml Deluxe Decant', price: 120 },
+      { size: '15ml Pocket Flacon', price: 170 },
       { size: 'Full Bottle (100ml)', price: 380 }
     ]
   },
@@ -183,15 +183,15 @@ export const INITIAL_PRODUCTS: Product[] = [
     publicationStatus: 'published',
     verified: true,
     intensity: 'intimate',
-    longevity: '4–5 hours',
+    longevity: '5–7 hours',
     sillage: 'Soft intimate trail',
     bestOccasions: ['Daily Signature', 'Tropical Heat & Day Out', 'Casual Weekend'],
     seasonality: ['Sunny Warmth', 'Daily'],
     inspiredByOrCharacter: 'Gourmand Body Splash Comfort',
     decantAvailable: true,
     decantOptions: [
-      { size: '30ml Travel Mist', price: 35 },
-      { size: '100ml Portable Flacon', price: 75 },
+      { size: '50ml Travel Mist', price: 45 },
+      { size: '100ml Portable Flacon', price: 80 },
       { size: '250ml Full Bottle', price: 130 }
     ]
   },
@@ -207,9 +207,9 @@ export const INITIAL_PRODUCTS: Product[] = [
       heart: ['Geranium', 'Clary Sage', 'Black Tea'],
       base: ['Earthy Vetiver', 'Oakmoss', 'Golden Amber']
     },
-    description: 'An alcohol-free, 100% concentrated botanical perfume oil crafted with skin-loving carrier oils for direct pulse-point application. The holy basil and earthbound vetiver create a grounding, green halo with incredible longevity of over 10 hours.',
+    description: 'An alcohol-free, 100% concentrated botanical perfume oil crafted with skin-loving carrier oils for direct pulse-point application. The holy basil and earthbound vetiver create a grounding, green halo with incredible longevity of over 12 hours.',
     shortDescription: 'Concentrated pulse-point perfume oil with crushed sweet basil and earthy vetiver.',
-    size: '12ml Rollerball Flacon',
+    size: '15ml Rollerball Flacon',
     price: 160,
     currency: 'GH₵',
     images: [
@@ -221,16 +221,16 @@ export const INITIAL_PRODUCTS: Product[] = [
     publicationStatus: 'published',
     verified: true,
     intensity: 'intimate',
-    longevity: '10–12 hours',
+    longevity: '12–14 hours',
     sillage: 'Intimate skin scent',
     bestOccasions: ['Daily Signature', 'Office & Business', 'Mindful Moments'],
     seasonality: ['Year Round'],
     inspiredByOrCharacter: 'Pure Concentrated Perfume Oil',
     decantAvailable: true,
     decantOptions: [
-      { size: '3ml Sample Roller', price: 45 },
-      { size: '6ml Pocket Roller', price: 85 },
-      { size: '12ml Full Flacon', price: 160 }
+      { size: '5ml Pocket Roller', price: 65 },
+      { size: '10ml Travel Roller', price: 110 },
+      { size: '15ml Full Flacon', price: 160 }
     ]
   },
   {
@@ -247,7 +247,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     },
     description: 'An exquisite, alcohol-free concentrated perfume oil (Attar). Pure luxury formulated with rich Cambodian oud and melted amber. A single drop applied to pulse points lasts from morning until the next day.',
     shortDescription: 'Pure concentrated attar oil with Cambodian oud, saffron, and cashmere.',
-    size: '12ml Crystal Dropper & Roller',
+    size: '15ml Crystal Dropper & Roller',
     price: 195,
     currency: 'GH₵',
     images: [
@@ -258,16 +258,16 @@ export const INITIAL_PRODUCTS: Product[] = [
     publicationStatus: 'published',
     verified: true,
     intensity: 'bold',
-    longevity: '12–16 hours',
+    longevity: '14–18 hours',
     sillage: 'Magnetic aura',
-    bestOccasions: ['Special Celebration', 'Evening & Date Night'],
+    bestOccasions: ['Special Celebration', 'Evening & Date Night', 'Royal Presence'],
     seasonality: ['Harmattan', 'All Seasons Evening'],
     inspiredByOrCharacter: 'Pure Royal Attar Oil',
     decantAvailable: true,
     decantOptions: [
-      { size: '3ml Sample Roller', price: 55 },
-      { size: '6ml Pocket Roller', price: 105 },
-      { size: '12ml Full Crystal Flacon', price: 195 }
+      { size: '5ml Pocket Roller', price: 75 },
+      { size: '10ml Travel Roller', price: 135 },
+      { size: '15ml Full Crystal Flacon', price: 195 }
     ]
   },
   {
@@ -282,9 +282,9 @@ export const INITIAL_PRODUCTS: Product[] = [
       heart: ['Smoked Sandalwood', 'Orris', 'Vanilla Pod'],
       base: ['Warm Amber', 'Cedarwood', 'Solar Musk']
     },
-    description: 'Curated gift pairing featuring our 50ml Rose & Amber Wood alongside the 12ml Pure Sandalwood Perfume Oil Rollerball. Packaged in Alora Fragrance House’s signature presentation box with personalized wax-sealed note card.',
-    shortDescription: '50ml Eau de Parfum and 12ml Pure Perfume Oil in signature presentation packaging.',
-    size: '50ml EDP + 12ml Oil',
+    description: 'Curated gift pairing featuring our 50ml Rose & Amber Wood alongside the 15ml Pure Sandalwood Perfume Oil Rollerball. Packaged in Alora Fragrance House’s signature presentation box with personalized wax-sealed note card.',
+    shortDescription: '50ml Eau de Parfum and 15ml Pure Perfume Oil in signature presentation packaging.',
+    size: '50ml EDP + 15ml Oil',
     price: 450,
     currency: 'GH₵',
     images: [
@@ -296,7 +296,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     publicationStatus: 'published',
     verified: true,
     intensity: 'moderate',
-    longevity: '8–10 hours',
+    longevity: '8–12 hours',
     sillage: 'Layerable flexibility',
     bestOccasions: ['Special Celebration', 'Gifting', 'Evening & Date Night'],
     seasonality: ['All Seasons'],
@@ -305,7 +305,7 @@ export const INITIAL_PRODUCTS: Product[] = [
   {
     id: 'alo-prd-009',
     slug: 'niche-discovery-decant-vault',
-    name: 'Niche Discovery Decant Vault (5 x 5ml)',
+    name: 'Niche Discovery Decant Vault (5 x 10ml)',
     brand: 'Alora Fragrance House',
     productType: 'decant',
     fragranceFamily: 'Warm Woody',
@@ -314,10 +314,10 @@ export const INITIAL_PRODUCTS: Product[] = [
       heart: ['Smoked Cedar', 'Orris', 'Amber'],
       base: ['Bourbon Vanilla', 'Oud', 'Vetiver']
     },
-    description: 'The ultimate decant discovery collection. Five premium 5ml glass atomizers with gold spray nozzles, containing our top 5 most coveted luxury fragrances. Test wear each one over 30 days to discover your true signature before buying full bottles.',
-    shortDescription: 'Five 5ml hand-decanted luxury travel atomizers (Velours, Rose, Cedar, Sandalwood & Oud).',
-    size: '5 x 5ml Glass Atomizers',
-    price: 240,
+    description: 'The ultimate decant discovery collection. Five premium 10ml glass atomizers with gold spray nozzles, containing our top 5 most coveted luxury extrait compositions. Test wear each one over 30 days to discover your true signature before buying full bottles.',
+    shortDescription: 'Five hand-decanted luxury travel atomizers (Velours, Rose, Cedar, Sandalwood & Oud).',
+    size: '5 x 10ml Glass Atomizers',
+    price: 360,
     currency: 'GH₵',
     images: [
       '/src/assets/images/luxury_perfume_decants_1791695120764.jpg',
@@ -328,16 +328,16 @@ export const INITIAL_PRODUCTS: Product[] = [
     publicationStatus: 'published',
     verified: true,
     intensity: 'strong',
-    longevity: '8–12 hours',
+    longevity: '8–14 hours',
     sillage: 'Full spectrum',
     bestOccasions: ['Discovery & Sampling', 'Gifting', 'Travel'],
     seasonality: ['Year Round'],
     inspiredByOrCharacter: 'Curated Decant Vault',
     decantAvailable: true,
     decantOptions: [
-      { size: '5 x 3ml Discovery Set', price: 160 },
-      { size: '5 x 5ml Discovery Vault', price: 240 },
-      { size: '5 x 10ml Deluxe Vault', price: 420 }
+      { size: '5 x 5ml Discovery Set', price: 210 },
+      { size: '5 x 10ml Deluxe Vault', price: 360 },
+      { size: '5 x 15ml Grand Vault', price: 490 }
     ]
   }
 ];

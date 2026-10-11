@@ -11,6 +11,7 @@ import {
   ThemeOption,
   ThemePaletteInfo,
   SiteContent,
+  PromoCodeResult,
 } from '../types';
 import { INITIAL_PRODUCTS } from '../data/products';
 import { DEFAULT_WEIGHTS, QuizEngineWeights } from '../services/recommendationEngine';
@@ -112,6 +113,20 @@ interface AppContextType {
   clearCart: () => void;
   cartSubtotal: number;
   cartCount: number;
+
+  // Promo Code (e.g. WELCOME10)
+  appliedPromoCode: string | null;
+  promoDiscountPercent: number;
+  promoDiscountAmount: number;
+  cartTotalAfterPromo: number;
+  applyPromoCode: (code: string) => PromoCodeResult;
+  removePromoCode: () => void;
+
+  // Interactive Assistant & Quiz Modals
+  isAiAssistantOpen: boolean;
+  setIsAiAssistantOpen: (open: boolean) => void;
+  isScentQuizOpen: boolean;
+  setIsScentQuizOpen: (open: boolean) => void;
 
   // Wishlist
   wishlist: string[];
@@ -570,6 +585,59 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   );
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
+  // Promo Code (WELCOME10 - 10% First Order Promo)
+  const [appliedPromoCode, setAppliedPromoCode] = useState<string | null>(() => {
+    try {
+      return localStorage.getItem('alora_promo_code') || null;
+    } catch {
+      return null;
+    }
+  });
+
+  const [promoDiscountPercent, setPromoDiscountPercent] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem('alora_promo_code');
+      return saved?.toUpperCase() === 'WELCOME10' ? 10 : 0;
+    } catch {
+      return 0;
+    }
+  });
+
+  const applyPromoCode = (code: string): PromoCodeResult => {
+    const normalized = code.trim().toUpperCase();
+    if (normalized === 'WELCOME10') {
+      setAppliedPromoCode('WELCOME10');
+      setPromoDiscountPercent(10);
+      try {
+        localStorage.setItem('alora_promo_code', 'WELCOME10');
+      } catch {}
+      return {
+        success: true,
+        message: '10% First-Order Welcome Discount (WELCOME10) applied successfully!',
+        discountPercent: 10,
+      };
+    }
+    return {
+      success: false,
+      message: 'Invalid promo code. Enter WELCOME10 for 10% off your order.',
+    };
+  };
+
+  const removePromoCode = () => {
+    setAppliedPromoCode(null);
+    setPromoDiscountPercent(0);
+    try {
+      localStorage.removeItem('alora_promo_code');
+    } catch {}
+  };
+
+  const promoDiscountAmount = appliedPromoCode ? (cartSubtotal * promoDiscountPercent) / 100 : 0;
+  const cartTotalAfterPromo = Math.max(0, cartSubtotal - promoDiscountAmount);
+
+  // Interactive Modals
+  const [isAiAssistantOpen, setIsAiAssistantOpen] = useState(false);
+  const [isScentQuizOpen, setIsScentQuizOpen] = useState(false);
+
   // Wishlist
   const toggleWishlist = (productId: string) => {
     setWishlist((prev) =>
@@ -763,6 +831,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         clearCart,
         cartSubtotal,
         cartCount,
+        appliedPromoCode,
+        promoDiscountPercent,
+        promoDiscountAmount,
+        cartTotalAfterPromo,
+        applyPromoCode,
+        removePromoCode,
+        isAiAssistantOpen,
+        setIsAiAssistantOpen,
+        isScentQuizOpen,
+        setIsScentQuizOpen,
         wishlist,
         toggleWishlist,
         isInWishlist,

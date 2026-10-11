@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ShieldCheck, Lock, AlertCircle, ArrowLeft, Check, Phone, CreditCard, Building } from 'lucide-react';
+import { ShieldCheck, Lock, AlertCircle, ArrowLeft, Check, Phone, CreditCard, Building, Tag } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { CustomerDetails, DeliveryMethod, PaymentMethod } from '../types';
 
 export const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
-  const { cart, cartSubtotal, createOrder, clearCart, featureFlags } = useApp();
+  const {
+    cart,
+    cartSubtotal,
+    createOrder,
+    clearCart,
+    featureFlags,
+    appliedPromoCode,
+    promoDiscountAmount,
+    cartTotalAfterPromo,
+    applyPromoCode,
+    removePromoCode,
+  } = useApp();
 
   const [customer, setCustomer] = useState<CustomerDetails>({
     fullName: '',
@@ -24,6 +35,21 @@ export const CheckoutPage: React.FC = () => {
   const [momoPhone, setMomoPhone] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const [promoInput, setPromoInput] = useState('');
+  const [promoFeedback, setPromoFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  const handleApplyPromo = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!promoInput.trim()) return;
+    const res = applyPromoCode(promoInput);
+    if (res.success) {
+      setPromoFeedback({ type: 'success', message: res.message });
+      setPromoInput('');
+    } else {
+      setPromoFeedback({ type: 'error', message: res.message });
+    }
+  };
 
   if (cart.length === 0) {
     return (
@@ -49,7 +75,7 @@ export const CheckoutPage: React.FC = () => {
   };
 
   const currentDeliveryFee = deliveryFees[deliveryMethod];
-  const grandTotal = cartSubtotal + currentDeliveryFee;
+  const grandTotal = cartTotalAfterPromo + currentDeliveryFee;
 
   const handleSubmitOrder = (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,6 +96,8 @@ export const CheckoutPage: React.FC = () => {
           items: cart,
           subtotal: cartSubtotal,
           deliveryFee: currentDeliveryFee,
+          discountAmount: promoDiscountAmount,
+          discountCode: appliedPromoCode || undefined,
           total: grandTotal,
           deliveryMethod,
           paymentMethod,
@@ -363,16 +391,99 @@ export const CheckoutPage: React.FC = () => {
               <span>Items Subtotal</span>
               <span className="font-mono tabular-nums">GH₵ {cartSubtotal.toFixed(2)}</span>
             </div>
+
+            {appliedPromoCode && (
+              <div className="flex justify-between text-emerald-700 bg-emerald-50 px-2 py-1.5 border border-emerald-200">
+                <div className="flex items-center gap-1.5">
+                  <Tag className="w-3.5 h-3.5 text-emerald-600" />
+                  <span className="font-semibold">{appliedPromoCode} (-10%)</span>
+                  <button
+                    type="button"
+                    onClick={removePromoCode}
+                    className="text-[10px] text-red-600 hover:text-red-800 underline ml-1"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <span className="font-mono font-bold tabular-nums">
+                  -GH₵ {promoDiscountAmount.toFixed(2)}
+                </span>
+              </div>
+            )}
+
             <div className="flex justify-between">
               <span>Delivery Fee</span>
-              <span className="font-mono tabular-nums">GH₵ {currentDeliveryFee.toFixed(2)}</span>
-            </div>
-            <div className="pt-3 border-t border-[#211D24]/10 flex justify-between font-serif text-xl text-[#241C2B]">
-              <span>Grand Total</span>
-              <span className="font-mono font-bold tabular-nums">
-                GH₵ {grandTotal.toFixed(2)}
+              <span className="font-mono tabular-nums">
+                {currentDeliveryFee === 0 ? 'FREE' : `GH₵ ${currentDeliveryFee.toFixed(2)}`}
               </span>
             </div>
+
+            <div className="pt-3 border-t border-[#211D24]/10 flex justify-between font-serif text-xl text-[#241C2B]">
+              <span>Grand Total</span>
+              <div className="text-right">
+                <span className="font-mono font-bold tabular-nums">
+                  GH₵ {grandTotal.toFixed(2)}
+                </span>
+                {appliedPromoCode && (
+                  <span className="block text-[11px] font-sans text-emerald-700 font-medium">
+                    10% savings applied
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Checkout Promo Code Input */}
+          <div className="pt-2 border-t border-[#211D24]/10 space-y-2">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={promoInput}
+                onChange={(e) => setPromoInput(e.target.value)}
+                placeholder="Promo code (e.g. WELCOME10)"
+                className="flex-1 px-3 py-2 text-xs bg-[#FAF8F5] border border-[#211D24]/20 uppercase tracking-wider font-mono focus:outline-none focus:border-[#C59B3F]"
+              />
+              <button
+                type="button"
+                onClick={handleApplyPromo}
+                className="px-3 py-2 text-xs font-semibold uppercase tracking-wider bg-[#241C2B] text-white hover:bg-[#C59B3F] hover:text-[#171512] transition-colors shrink-0"
+              >
+                Apply
+              </button>
+            </div>
+
+            {promoFeedback && (
+              <div
+                className={`text-xs p-2 flex items-center gap-1.5 ${
+                  promoFeedback.type === 'success'
+                    ? 'text-emerald-800 bg-emerald-50 border border-emerald-200'
+                    : 'text-red-700 bg-red-50 border border-red-200'
+                }`}
+              >
+                {promoFeedback.type === 'success' ? (
+                  <Check className="w-3.5 h-3.5 shrink-0" />
+                ) : (
+                  <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                )}
+                <span>{promoFeedback.message}</span>
+              </div>
+            )}
+
+            {!appliedPromoCode && (
+              <div className="text-[11px] text-[#211D24]/60 flex items-center justify-between">
+                <span>First order? Code: <strong>WELCOME10</strong></span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    applyPromoCode('WELCOME10');
+                    setPromoFeedback({ type: 'success', message: 'Applied 10% Discount!' });
+                  }}
+                  className="text-[#C59B3F] font-semibold hover:underline"
+                >
+                  Apply 10%
+                </button>
+              </div>
+            )}
           </div>
 
           <button

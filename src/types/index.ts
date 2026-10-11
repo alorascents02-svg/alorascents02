@@ -97,6 +97,19 @@ export type PaymentMethod = 'momo' | 'card' | 'bank_transfer' | 'whatsapp_assist
 export type PaymentStatus = 'pending' | 'verified' | 'failed';
 export type OrderStatus = 'confirmed' | 'processing' | 'dispatched' | 'delivered';
 
+export interface QuickQuizAnswers {
+  occasion: string;
+  scentFamily: ScentFamily;
+  sillage: 'intimate' | 'moderate' | 'commanding';
+  format: string;
+}
+
+export interface PromoCodeResult {
+  success: boolean;
+  message: string;
+  discountPercent?: number;
+}
+
 export interface Order {
   id: string;
   reference: string;
@@ -104,6 +117,8 @@ export interface Order {
   items: CartItem[];
   subtotal: number;
   deliveryFee: number;
+  discountAmount?: number;
+  discountCode?: string;
   total: number;
   deliveryMethod: DeliveryMethod;
   paymentMethod: PaymentMethod;
@@ -163,6 +178,15 @@ export interface ThemePaletteInfo {
   bg: string;
 }
 
+export interface AiChatMessage {
+  id: string;
+  sender: 'user' | 'assistant';
+  text: string;
+  timestamp: string;
+  suggestedProducts?: string[];
+  recommendedDecantSize?: '5ml' | '10ml' | '15ml';
+}
+
 export interface SiteContent {
   heroHeadline: string;
   heroSubtitle?: string;
@@ -188,5 +212,6 @@ export interface SiteContent {
   tiktokLink: string;
   updatedAt?: string;
 }
+
 
 

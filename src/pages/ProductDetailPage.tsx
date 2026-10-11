@@ -9,7 +9,17 @@ import { ProductCard } from '../components/ProductCard';
 export const ProductDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const { publishedProducts, addToCart, isInWishlist, toggleWishlist, compareList, addToCompare, removeFromCompare } = useApp();
+  const {
+    publishedProducts,
+    addToCart,
+    isInWishlist,
+    toggleWishlist,
+    compareList,
+    addToCompare,
+    removeFromCompare,
+    appliedPromoCode,
+    applyPromoCode,
+  } = useApp();
 
   const [quantity, setQuantity] = useState(1);
   const [addedNotice, setAddedNotice] = useState(false);
@@ -329,6 +339,20 @@ export const ProductDetailPage: React.FC = () => {
                     </span>
                   </>
                 )}
+              </button>
+            </div>
+
+            {/* Promo Code Notification */}
+            <div className="p-3 bg-[#FAF8F5] border border-[#171512]/10 flex items-center justify-between text-xs">
+              <span className="text-[#171512]/80">
+                First order? Use code <strong className="font-mono text-[#C59B3F]">WELCOME10</strong> for 10% off.
+              </span>
+              <button
+                type="button"
+                onClick={() => applyPromoCode('WELCOME10')}
+                className="text-[11px] font-semibold text-[#C59B3F] hover:underline"
+              >
+                {appliedPromoCode === 'WELCOME10' ? '10% Applied' : 'Apply Code'}
               </button>
             </div>
 

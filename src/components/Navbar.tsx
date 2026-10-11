@@ -1,29 +1,44 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Heart, SlidersHorizontal, Menu, X, ShieldCheck } from 'lucide-react';
+import { ShoppingBag, Heart, Menu, X, Sparkles, Compass, Check, Copy } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { ThemeSelector } from './ThemeSelector';
-import { SocialLinks, OFFICIAL_SOCIAL_LINKS, TikTokIcon, InstagramIcon, WhatsAppIcon } from './SocialLinks';
+import { OFFICIAL_SOCIAL_LINKS, TikTokIcon, InstagramIcon, WhatsAppIcon } from './SocialLinks';
 
 export const Navbar: React.FC = () => {
-  const { cartCount, wishlist, compareList, featureFlags, isAdminLoggedIn, siteContent } = useApp();
+  const {
+    cartCount,
+    cartSubtotal,
+    wishlist,
+    setIsAiAssistantOpen,
+    appliedPromoCode,
+    applyPromoCode,
+  } = useApp();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [copiedCode, setCopiedCode] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
 
+  const handleCopyPromo = () => {
+    navigator.clipboard?.writeText('WELCOME10');
+    applyPromoCode('WELCOME10');
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 2500);
+  };
+
   return (
-    <header className="sticky top-0 z-40 bg-[#F5F2EE]/95 backdrop-blur-md border-b border-[#211D24]/10 transition-colors">
-      {/* Top utility strip for Ghanaian shoppers + Social Media Logos + Palette Customizer */}
-      <div className="bg-[#241C2B] text-[#F5F2EE] text-[11px] py-1.5 px-4 tracking-wider uppercase font-medium flex items-center justify-between gap-4">
-        {/* Left: Quick Social Icons with Clickable Direct Links */}
-        <div className="flex items-center gap-1">
+    <header className="sticky top-0 z-40 bg-[#FAF9F5]/95 backdrop-blur-md border-b border-[#171512]/10 transition-colors">
+      {/* 1. TOP UTILITY STRIP & MAISON WELCOME ANNOUNCEMENT */}
+      <div className="bg-[#171512] text-[#FAF9F5] text-[11px] py-2 px-4 tracking-wider uppercase font-medium flex items-center justify-between gap-4 border-b border-[#C59B3F]/20">
+        {/* Left: Social Media */}
+        <div className="flex items-center gap-1.5 shrink-0">
           <a
             href={OFFICIAL_SOCIAL_LINKS.tiktok}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-1 hover:text-white transition-opacity text-white/80"
-            title="Follow on TikTok (@_alora.scents)"
+            className="p-1 text-[#FAF9F5]/70 hover:text-[#C59B3F] transition-colors"
+            title="TikTok (@_alora.scents)"
             aria-label="TikTok"
           >
             <TikTokIcon className="w-3.5 h-3.5" />
@@ -32,8 +47,8 @@ export const Navbar: React.FC = () => {
             href={OFFICIAL_SOCIAL_LINKS.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-1 hover:text-white transition-opacity text-white/80"
-            title="Follow on Instagram (@alora.scentsss_)"
+            className="p-1 text-[#FAF9F5]/70 hover:text-[#C59B3F] transition-colors"
+            title="Instagram (@alora.scentsss_)"
             aria-label="Instagram"
           >
             <InstagramIcon className="w-3.5 h-3.5" />
@@ -42,259 +57,250 @@ export const Navbar: React.FC = () => {
             href={OFFICIAL_SOCIAL_LINKS.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-1 hover:text-white transition-opacity text-white/80"
-            title="Chat on WhatsApp"
+            className="p-1 text-[#FAF9F5]/70 hover:text-[#C59B3F] transition-colors"
+            title="WhatsApp Concierge"
             aria-label="WhatsApp"
           >
             <WhatsAppIcon className="w-3.5 h-3.5" />
           </a>
         </div>
 
-        {/* Center: Delivery & House info */}
-        <div className="hidden sm:flex items-center gap-3 mx-auto">
-          <span>{siteContent.announcementStrip}</span>
-        </div>
-        <div className="sm:hidden text-center flex-1 truncate text-[10px]">
-          <span>Accra Same-Day Delivery</span>
+        {/* Center: Promo Code Announcement with Interactive Copy Button */}
+        <div className="flex items-center gap-2.5 mx-auto truncate text-[11px]">
+          <span className="hidden md:inline text-[#FAF9F5]/75">
+            Artisanal Decants & Pure Perfumes · Hand-Poured in Accra ·
+          </span>
+          <span className="text-[#FAF9F5]/90">
+            First Order: <strong>10% Off</strong> with code
+          </span>
+          <button
+            type="button"
+            onClick={handleCopyPromo}
+            className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#C59B3F] text-[#171512] font-mono font-bold text-[10px] tracking-widest hover:bg-[#FAF9F5] transition-all cursor-pointer shadow-xs"
+            title="Click to copy and apply 10% discount"
+          >
+            {copiedCode || appliedPromoCode === 'WELCOME10' ? (
+              <>
+                <Check className="w-3 h-3 text-[#171512]" />
+                <span>WELCOME10 APPLIED</span>
+              </>
+            ) : (
+              <>
+                <Copy className="w-3 h-3 text-[#171512]" />
+                <span>WELCOME10</span>
+              </>
+            )}
+          </button>
         </div>
 
-        {/* Right: Theme Customizer */}
-        <div className="shrink-0">
+        {/* Right: Theme Palette */}
+        <div className="shrink-0 flex items-center gap-3">
           <ThemeSelector compact />
         </div>
       </div>
 
-      {/* Main 3-Zone Navigation Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-8">
-        {/* Zone 1: Brand Wordmark (Single text element in display face) */}
+      {/* 2. MAIN NAVIGATION BAR */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-6">
+        {/* Left: Brand Identity */}
         <Link
           to="/"
-          className="text-2xl sm:text-3xl font-serif tracking-tight text-[#241C2B] whitespace-nowrap shrink-0 hover:opacity-85 transition-opacity"
+          className="group flex flex-col justify-center shrink-0 hover:opacity-90 transition-opacity"
         >
-          Alora Fragrance House
+          <span className="text-2xl sm:text-3xl font-serif tracking-tight text-[#171512] leading-none">
+            Alora Fragrance House
+          </span>
+          <span className="text-[10px] font-sans tracking-[0.28em] text-[#C59B3F] uppercase font-medium mt-1">
+            Haute Parfumerie · Accra
+          </span>
         </Link>
 
-        {/* Zone 2: 4–5 single-line clean navigation links */}
-        <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-[#211D24]/80">
+        {/* Center: Core Feature Links: Home, Fragrance, Discover, Shop */}
+        <nav className="hidden lg:flex items-center gap-8 text-xs uppercase tracking-[0.15em] font-semibold text-[#171512]/80">
+          <Link
+            to="/"
+            className={`py-1.5 transition-colors relative hover:text-[#C59B3F] ${
+              isActive('/') ? 'text-[#171512] border-b-2 border-[#C59B3F]' : ''
+            }`}
+          >
+            Home
+          </Link>
+          <Link
+            to="/fragrance"
+            className={`py-1.5 transition-colors relative hover:text-[#C59B3F] ${
+              isActive('/fragrance') ? 'text-[#171512] border-b-2 border-[#C59B3F]' : ''
+            }`}
+          >
+            Fragrance
+          </Link>
+          <Link
+            to="/discover"
+            className={`py-1.5 transition-colors relative hover:text-[#C59B3F] ${
+              isActive('/discover') ? 'text-[#171512] border-b-2 border-[#C59B3F]' : ''
+            }`}
+          >
+            Discover
+          </Link>
           <Link
             to="/shop"
-            className={`whitespace-nowrap shrink-0 hover:text-[#241C2B] transition-colors relative py-1 ${
-              isActive('/shop') ? 'text-[#241C2B] font-semibold border-b-2 border-[#241C2B]' : ''
+            className={`py-1.5 transition-colors relative hover:text-[#C59B3F] ${
+              isActive('/shop') ? 'text-[#171512] border-b-2 border-[#C59B3F]' : ''
             }`}
           >
             Shop
           </Link>
-          <Link
-            to="/find-your-scent"
-            className={`whitespace-nowrap shrink-0 hover:text-[#241C2B] transition-colors relative py-1 ${
-              isActive('/find-your-scent') ? 'text-[#241C2B] font-semibold border-b-2 border-[#241C2B]' : ''
-            }`}
-          >
-            Find Your Scent
-          </Link>
-          <Link
-            to="/compare"
-            className={`whitespace-nowrap shrink-0 hover:text-[#241C2B] transition-colors relative py-1 flex items-center gap-1.5 ${
-              isActive('/compare') ? 'text-[#241C2B] font-semibold border-b-2 border-[#241C2B]' : ''
-            }`}
-          >
-            <span>Compare</span>
-            {compareList.length > 0 && (
-              <span className="text-[11px] font-mono tabular-nums text-[#241C2B] bg-[#241C2B]/10 rounded-full px-1.5 py-0.2">
-                {compareList.length}
-              </span>
-            )}
-          </Link>
-          <Link
-            to="/our-story"
-            className={`whitespace-nowrap shrink-0 hover:text-[#241C2B] transition-colors relative py-1 ${
-              isActive('/our-story') ? 'text-[#241C2B] font-semibold border-b-2 border-[#241C2B]' : ''
-            }`}
-          >
-            Our Story
-          </Link>
-          <Link
-            to="/journal"
-            className={`whitespace-nowrap shrink-0 hover:text-[#241C2B] transition-colors relative py-1 ${
-              isActive('/journal') ? 'text-[#241C2B] font-semibold border-b-2 border-[#241C2B]' : ''
-            }`}
-          >
-            Journal
-          </Link>
-          <Link
-            to="/gifting"
-            className={`whitespace-nowrap shrink-0 hover:text-[#241C2B] transition-colors relative py-1 ${
-              isActive('/gifting') ? 'text-[#241C2B] font-semibold border-b-2 border-[#241C2B]' : ''
-            }`}
-          >
-            Gifting
-          </Link>
         </nav>
 
-        {/* Zone 3: 1 Primary Action + Quick Utilities */}
-        <div className="flex items-center gap-3.5 shrink-0">
+        {/* Right: Scent Quiz, AI Scent Assistant & Bag */}
+        <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+          {/* 4-Question Scent Quiz CTA */}
+          <Link
+            to="/find-your-scent"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 text-[11px] font-semibold uppercase tracking-wider text-[#171512] border border-[#171512]/25 hover:border-[#C59B3F] hover:text-[#C59B3F] transition-colors"
+          >
+            <Compass className="w-3.5 h-3.5 text-[#C59B3F]" />
+            <span>Scent Quiz</span>
+          </Link>
+
+          {/* AI Scent Assistant Button */}
+          <button
+            type="button"
+            onClick={() => setIsAiAssistantOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-[11px] font-semibold uppercase tracking-wider text-[#FAF9F5] bg-[#171512] hover:bg-[#C59B3F] hover:text-[#171512] transition-colors shadow-xs"
+            title="Open AI Scent Assistant"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-[#C59B3F]" />
+            <span className="hidden sm:inline">AI Assistant</span>
+            <span className="sm:hidden">AI</span>
+          </button>
+
           {/* Wishlist */}
           <Link
             to="/account/wishlist"
-            className="p-2 text-[#211D24]/80 hover:text-[#241C2B] transition-colors relative"
+            className="p-2 text-[#171512]/80 hover:text-[#C59B3F] transition-colors relative"
             title="Wishlist"
             aria-label="Wishlist"
           >
             <Heart className="w-5 h-5" />
             {wishlist.length > 0 && (
-              <span className="absolute top-1 right-1 w-2 h-2 bg-[#D68C7C] rounded-full" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#C59B3F] rounded-full" />
             )}
           </Link>
 
-          {/* Cart */}
+          {/* Shopping Bag */}
           <Link
             to="/cart"
-            className="p-2 text-[#211D24]/80 hover:text-[#241C2B] transition-colors relative"
-            title="Shopping Cart"
-            aria-label="Shopping Cart"
+            className="p-2 text-[#171512]/80 hover:text-[#C59B3F] transition-colors relative flex items-center gap-1"
+            title="Shopping Bag"
+            aria-label="Shopping Bag"
           >
-            <ShoppingBag className="w-5 h-5" />
+            <div className="relative">
+              <ShoppingBag className="w-5 h-5" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1.5 -right-2 bg-[#C59B3F] text-[#171512] font-mono text-[10px] font-bold rounded-full w-4.5 h-4.5 flex items-center justify-center tabular-nums shadow-xs">
+                  {cartCount}
+                </span>
+              )}
+            </div>
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-[#241C2B] text-[#F5F2EE] font-mono text-[11px] font-bold rounded-full w-4.5 h-4.5 flex items-center justify-center tabular-nums">
-                {cartCount}
+              <span className="hidden xl:inline text-xs font-mono font-semibold text-[#171512] ml-1">
+                GH₵ {cartSubtotal.toFixed(0)}
               </span>
             )}
           </Link>
 
-          {/* Primary Action Button */}
-          <Link
-            to="/find-your-scent"
-            className="hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-semibold tracking-wider uppercase text-[#F5F2EE] bg-[#241C2B] hover:bg-[#211D24] transition-colors rounded-none whitespace-nowrap shrink-0"
-          >
-            Find Your Fragrance
-          </Link>
-
-          {/* Admin badge if logged in */}
-          {isAdminLoggedIn && (
-            <Link
-              to="/admin"
-              className="hidden lg:flex items-center gap-1 text-[11px] font-medium text-[#241C2B] bg-[#241C2B]/10 px-2 py-1 rounded"
-              title="Admin Portal"
-            >
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Admin</span>
-            </Link>
-          )}
-
-          {/* Mobile hamburger */}
+          {/* Mobile menu button */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-[#211D24] hover:text-[#241C2B]"
-            aria-label="Toggle Menu"
+            className="lg:hidden p-2 text-[#171512]"
+            aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6 text-[#241C2B]" />}
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* 3. MOBILE MENU DRAWER */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#F5F2EE] border-b border-[#211D24]/10 px-5 py-6 space-y-4 animate-in fade-in duration-150">
-          <nav className="flex flex-col space-y-3 text-base font-medium text-[#211D24]">
+        <div className="lg:hidden bg-[#FAF9F5] border-b border-[#171512]/15 px-6 py-6 space-y-6 shadow-xl animate-in slide-in-from-top-2 duration-200">
+          {/* Promo code highlight in mobile menu */}
+          <div className="p-3 bg-[#171512] text-[#FAF9F5] flex items-center justify-between text-xs">
+            <div>
+              <span className="font-semibold text-[#C59B3F] block">10% Off Your First Order</span>
+              <span className="text-[11px] text-[#FAF9F5]/70">Code: WELCOME10</span>
+            </div>
+            <button
+              type="button"
+              onClick={handleCopyPromo}
+              className="px-2.5 py-1 text-[10px] uppercase font-bold bg-[#C59B3F] text-[#171512]"
+            >
+              {copiedCode ? 'Applied!' : 'Apply Code'}
+            </button>
+          </div>
+
+          <nav className="flex flex-col space-y-4 text-sm uppercase tracking-widest font-medium text-[#171512]">
+            <Link
+              to="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="hover:text-[#C59B3F] transition-colors py-1 border-b border-[#171512]/10"
+            >
+              Home
+            </Link>
+            <Link
+              to="/fragrance"
+              onClick={() => setMobileMenuOpen(false)}
+              className="hover:text-[#C59B3F] transition-colors py-1 border-b border-[#171512]/10"
+            >
+              Fragrance
+            </Link>
+            <Link
+              to="/discover"
+              onClick={() => setMobileMenuOpen(false)}
+              className="hover:text-[#C59B3F] transition-colors py-1 border-b border-[#171512]/10"
+            >
+              Discover Decants
+            </Link>
             <Link
               to="/shop"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-1 hover:text-[#241C2B]"
+              className="hover:text-[#C59B3F] transition-colors py-1 border-b border-[#171512]/10"
             >
-              Shop Fragrances
+              Shop All Formats
             </Link>
             <Link
               to="/find-your-scent"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-1 hover:text-[#241C2B]"
+              className="hover:text-[#C59B3F] transition-colors py-1 border-b border-[#171512]/10 flex items-center justify-between"
             >
-              Fragrance Quiz
+              <span>4-Question Scent Quiz</span>
+              <span className="text-[10px] text-[#C59B3F] font-mono">Personalized</span>
             </Link>
-            <Link
-              to="/compare"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-1 hover:text-[#241C2B]"
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setIsAiAssistantOpen(true);
+              }}
+              className="text-left hover:text-[#C59B3F] transition-colors py-1 border-b border-[#171512]/10 flex items-center justify-between"
             >
-              Compare Fragrances ({compareList.length})
-            </Link>
+              <span>AI Scent Assistant</span>
+              <Sparkles className="w-4 h-4 text-[#C59B3F]" />
+            </button>
             <Link
               to="/our-story"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-1 hover:text-[#241C2B]"
+              className="hover:text-[#C59B3F] transition-colors py-1 border-b border-[#171512]/10"
             >
-              Our Story
+              Our Story (Accra)
             </Link>
             <Link
               to="/journal"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-1 hover:text-[#241C2B]"
+              className="hover:text-[#C59B3F] transition-colors py-1"
             >
-              Journal & Scent Literacy
+              Scent Journal
             </Link>
-            <Link
-              to="/gifting"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-1 hover:text-[#241C2B]"
-            >
-              Gifting Collections
-            </Link>
-
-            {/* Social channels in mobile drawer */}
-            <div className="pt-3 border-t border-[#211D24]/10">
-              <span className="text-[10px] uppercase font-bold text-[#211D24]/50 block mb-2">Connect with House of ALORA</span>
-              <div className="flex items-center gap-3">
-                <a
-                  href={OFFICIAL_SOCIAL_LINKS.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-100 text-emerald-950 text-xs font-semibold"
-                >
-                  <WhatsAppIcon className="w-3.5 h-3.5" />
-                  <span>WhatsApp</span>
-                </a>
-                <a
-                  href={OFFICIAL_SOCIAL_LINKS.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 border border-[#211D24]/20 hover:border-[#241C2B] text-[#241C2B]"
-                  title="Instagram"
-                >
-                  <InstagramIcon className="w-4 h-4" />
-                </a>
-                <a
-                  href={OFFICIAL_SOCIAL_LINKS.tiktok}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 border border-[#211D24]/20 hover:border-[#241C2B] text-[#241C2B]"
-                  title="TikTok"
-                >
-                  <TikTokIcon className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-
-            <div className="pt-2 border-t border-[#211D24]/10 flex flex-col space-y-2 text-sm text-[#211D24]/70">
-              <div className="py-1">
-                <span className="text-[10px] uppercase font-bold text-[#211D24]/50 block mb-1">Color Palette</span>
-                <ThemeSelector />
-              </div>
-              <Link to="/account" onClick={() => setMobileMenuOpen(false)}>Customer Account</Link>
-              <Link to="/account/preferences" onClick={() => setMobileMenuOpen(false)}>Scent Preferences</Link>
-              <Link to="/order-tracking" onClick={() => setMobileMenuOpen(false)}>Track an Order</Link>
-              <Link to="/faqs" onClick={() => setMobileMenuOpen(false)}>FAQs & Ghana Delivery</Link>
-              <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>Contact Studio</Link>
-              <Link to="/admin" onClick={() => setMobileMenuOpen(false)} className="text-[#241C2B] font-medium">Administrative Portal</Link>
-            </div>
           </nav>
-
-          <Link
-            to="/find-your-scent"
-            onClick={() => setMobileMenuOpen(false)}
-            className="w-full text-center block py-3 text-xs uppercase tracking-wider font-semibold text-[#F5F2EE] bg-[#241C2B]"
-          >
-            Find Your Fragrance
-          </Link>
         </div>
       )}
     </header>
