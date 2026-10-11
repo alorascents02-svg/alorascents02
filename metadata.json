@@ -1,0 +1,6 @@
+{
+  "name": "ALORA Perfumery Co.",
+  "description": "Curated fragrance discovery, interactive scent profiling, and hybrid retail for ALORA Perfumery Co. in Ghana.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

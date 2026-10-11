@@ -1,0 +1,210 @@
+@import "tailwindcss";
+
+:root {
+  /* Default: Luxe Noir & Champagne Amber (Modern Niche Luxury Perfumery) */
+  --primary: #171512;
+  --primary-hover: #29241E;
+  --bg-page: #FAF9F5;
+  --bg-surface: #FFFFFF;
+  --bg-subtle: #F3EFE7;
+  --accent: #C59B3F;
+  --accent-hover: #B28830;
+  --accent-light: #FAF5EA;
+  --ink: #1A1816;
+  --ink-muted: #6E665E;
+  --border: rgba(26, 24, 22, 0.12);
+  --border-strong: rgba(26, 24, 22, 0.22);
+}
+
+[data-theme="luxe_noir"] {
+  --primary: #171512;
+  --primary-hover: #29241E;
+  --bg-page: #FAF9F5;
+  --bg-surface: #FFFFFF;
+  --bg-subtle: #F3EFE7;
+  --accent: #C59B3F;
+  --accent-hover: #B28830;
+  --accent-light: #FAF5EA;
+  --ink: #1A1816;
+  --ink-muted: #6E665E;
+  --border: rgba(26, 24, 22, 0.12);
+  --border-strong: rgba(26, 24, 22, 0.22);
+}
+
+/* Warm Sandstone & Terracotta (Sun-warmed African Earth) */
+[data-theme="terracotta"] {
+  --primary: #211915;
+  --primary-hover: #332721;
+  --bg-page: #F8F5EE;
+  --bg-surface: #FFFFFF;
+  --bg-subtle: #EDE7DC;
+  --accent: #C26B43;
+  --accent-hover: #AB5B35;
+  --accent-light: #FBF0EB;
+  --ink: #211915;
+  --ink-muted: #73645A;
+  --border: rgba(33, 25, 21, 0.12);
+  --border-strong: rgba(33, 25, 21, 0.22);
+}
+
+/* Modern Minimalist Noir & Gallery Ivory */
+[data-theme="monochrome"] {
+  --primary: #121214;
+  --primary-hover: #222226;
+  --bg-page: #FCFCFA;
+  --bg-surface: #FFFFFF;
+  --bg-subtle: #F1F1EE;
+  --accent: #9A7B4F;
+  --accent-hover: #82663F;
+  --accent-light: #F7F3ED;
+  --ink: #121214;
+  --ink-muted: #636369;
+  --border: rgba(18, 18, 20, 0.12);
+  --border-strong: rgba(18, 18, 20, 0.22);
+}
+
+/* Botanical Cypress & Honey Brass */
+[data-theme="botanical"] {
+  --primary: #132219;
+  --primary-hover: #1F3628;
+  --bg-page: #F5F7F4;
+  --bg-surface: #FFFFFF;
+  --bg-subtle: #E8ECE6;
+  --accent: #B89243;
+  --accent-hover: #9E7B34;
+  --accent-light: #F9F4E9;
+  --ink: #142018;
+  --ink-muted: #5B6B60;
+  --border: rgba(19, 34, 25, 0.12);
+  --border-strong: rgba(19, 34, 25, 0.22);
+}
+
+/* Original Plum & Coral (Preserved as toggleable option) */
+[data-theme="plum"] {
+  --primary: #241C2B;
+  --primary-hover: #34283D;
+  --bg-page: #F5F2EE;
+  --bg-surface: #FFFFFF;
+  --bg-subtle: #ECE7E1;
+  --accent: #D68C7C;
+  --accent-hover: #C3796A;
+  --accent-light: #FAF0EE;
+  --ink: #211D24;
+  --ink-muted: #6C6670;
+  --border: rgba(33, 29, 36, 0.12);
+  --border-strong: rgba(33, 29, 36, 0.22);
+}
+
+@theme {
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-sans: "Manrope", sans-serif;
+
+  --color-plum: var(--primary);
+  --color-porcelain: var(--bg-page);
+  --color-coral: var(--accent);
+  --color-sage: #A8AEA1;
+  --color-ink: var(--ink);
+}
+
+@layer base {
+  html, body {
+    font-family: var(--font-sans);
+    color: var(--ink);
+    background-color: var(--bg-page);
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  h1, h2, h3, .font-editorial {
+    font-family: var(--font-serif);
+  }
+
+  ::selection {
+    background-color: var(--primary);
+    color: var(--bg-page);
+  }
+}
+
+/* =========================================================
+   Live Dynamic Palette Overrides
+   Instantly transforms all UI components to the selected theme
+   ========================================================= */
+
+/* Primary brand surfaces (formerly #241C2B Midnight Plum) */
+.bg-\[\#241C2B\] {
+  background-color: var(--primary) !important;
+}
+.text-\[\#241C2B\] {
+  color: var(--primary) !important;
+}
+.border-\[\#241C2B\] {
+  border-color: var(--primary) !important;
+}
+.border-\[\#241C2B\]\/10 {
+  border-color: var(--border) !important;
+}
+.border-\[\#241C2B\]\/15 {
+  border-color: var(--border) !important;
+}
+.border-\[\#241C2B\]\/20 {
+  border-color: var(--border-strong) !important;
+}
+.border-\[\#241C2B\]\/30 {
+  border-color: var(--border-strong) !important;
+}
+.hover\:bg-\[\#211D24\]:hover,
+.hover\:bg-\[\#241C2B\]:hover {
+  background-color: var(--primary-hover) !important;
+}
+.hover\:text-\[\#241C2B\]:hover {
+  color: var(--primary) !important;
+}
+.ring-\[\#241C2B\]\/10 {
+  --tw-ring-color: var(--border) !important;
+}
+
+/* Accent highlights (formerly #D68C7C Muted Coral) */
+.text-\[\#D68C7C\] {
+  color: var(--accent) !important;
+}
+.bg-\[\#D68C7C\] {
+  background-color: var(--accent) !important;
+}
+.border-\[\#D68C7C\] {
+  border-color: var(--accent) !important;
+}
+.hover\:text-\[\#D68C7C\]:hover {
+  color: var(--accent) !important;
+}
+
+/* Canvas background (formerly #F5F2EE Soft Porcelain) */
+.bg-\[\#F5F2EE\] {
+  background-color: var(--bg-page) !important;
+}
+.text-\[\#F5F2EE\] {
+  color: var(--bg-page) !important;
+}
+.hover\:bg-\[\#F5F2EE\]:hover {
+  background-color: var(--bg-subtle) !important;
+}
+
+/* Subtle panel backgrounds (formerly #FAF8F5) */
+.bg-\[\#FAF8F5\] {
+  background-color: var(--bg-subtle) !important;
+}
+
+/* Ink text (formerly #211D24 Deep Ink) */
+.text-\[\#211D24\] {
+  color: var(--ink) !important;
+}
+.border-\[\#211D24\]\/10 {
+  border-color: var(--border) !important;
+}
+.border-\[\#211D24\]\/15 {
+  border-color: var(--border) !important;
+}
+.border-\[\#211D24\]\/20 {
+  border-color: var(--border-strong) !important;
+}
+.border-\[\#211D24\]\/30 {
+  border-color: var(--border-strong) !important;
+}

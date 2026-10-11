@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default fallback
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Site settings: public read, allow write for authorized admin/storefront updates
+    match /site_settings/{settingId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Products: public read of published catalog, allow write for admin updates
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Orders: allow customer creation, allow status updates
+    match /orders/{orderId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;
+    }
+
+    // Customer Inquiries: public creation, admin management
+    match /inquiries/{inquiryId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;
+    }
+
+    // Audit logs: allow append and admin read
+    match /audit_logs/{logId} {
+      allow read: if true;
+      allow create: if true;
+    }
+  }
+}

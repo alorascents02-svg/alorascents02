@@ -1,0 +1,98 @@
+{
+  "entities": {
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Global storefront editable copy and content",
+      "type": "object",
+      "properties": {
+        "heroHeadline": { "type": "string" },
+        "heroSubcopy": { "type": "string" },
+        "announcement": { "type": "string" },
+        "missionTitle": { "type": "string" },
+        "missionText": { "type": "string" },
+        "philosophyTitle": { "type": "string" },
+        "philosophyText": { "type": "string" },
+        "contactPhone": { "type": "string" },
+        "contactEmail": { "type": "string" },
+        "whatsappUrl": { "type": "string" },
+        "instagramUrl": { "type": "string" },
+        "tiktokUrl": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Fragrance item catalog without SKUs",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "slug": { "type": "string" },
+        "name": { "type": "string" },
+        "brand": { "type": "string" },
+        "productType": { "type": "string" },
+        "fragranceFamily": { "type": "string" },
+        "description": { "type": "string" },
+        "shortDescription": { "type": "string" },
+        "size": { "type": "string" },
+        "price": { "type": "number" },
+        "currency": { "type": "string" },
+        "availability": { "type": "string" },
+        "stockCount": { "type": "number" },
+        "publicationStatus": { "type": "string" },
+        "verified": { "type": "boolean" },
+        "intensity": { "type": "string" },
+        "longevity": { "type": "string" },
+        "sillage": { "type": "string" }
+      },
+      "required": ["id", "name", "price", "fragranceFamily"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer perfume purchase record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "reference": { "type": "string" },
+        "subtotal": { "type": "number" },
+        "deliveryFee": { "type": "number" },
+        "total": { "type": "number" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "reference", "total"]
+    },
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "Direct client inquiry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "message"]
+    }
+  },
+  "firestore": {
+    "/site_settings/{settingId}": {
+      "schema": "SiteSettings",
+      "description": "Storefront editable content and branding parameters"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Perfumery product catalog records"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer purchase orders"
+    },
+    "/inquiries/{inquiryId}": {
+      "schema": "Inquiry",
+      "description": "Customer concierge inquiries"
+    }
+  }
+}
