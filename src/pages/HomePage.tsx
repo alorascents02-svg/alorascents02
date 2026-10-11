@@ -28,7 +28,7 @@ export const HomePage: React.FC = () => {
         {/* Immersive Campaign Background Photography */}
         <div className="absolute inset-0 z-0">
           <img
-            src="/src/assets/images/hero_luxury_perfume_editorial_1791688544047.jpg"
+            src="/images/hero_luxury_perfume_editorial_1791688544047.jpg"
             alt="House of ALORA Luxury Fragrance Campaign"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover object-center lg:object-[center_35%] scale-102 transition-transform duration-1000 ease-out"
@@ -108,7 +108,7 @@ export const HomePage: React.FC = () => {
           <div className="lg:col-span-5 relative">
             <div className="relative aspect-4/3 sm:aspect-5/4 overflow-hidden bg-[#FAF9F5] border border-[#171512]/10 shadow-xl">
               <img
-                src="/src/assets/images/luxury_decant_bar_aesthetic_1791695150602.jpg"
+                src="/images/luxury_decant_bar_aesthetic_1791695150602.jpg"
                 alt="Alora Fragrance House luxury perfume decanting bar and flacons"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover"
